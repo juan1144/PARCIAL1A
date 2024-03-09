@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<parcial1aContext>(options =>
     options.UseSqlServer(
-            builder.Configuration.GetConnectionString("equipos2DbConnection")
+            builder.Configuration.GetConnectionString("parcial1ADbConnection")
         )
 );
 

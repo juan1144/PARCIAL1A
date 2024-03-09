@@ -1,5 +1,7 @@
 ﻿namespace PARCIAL1A.Models
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.SqlServer;
     using System.ComponentModel.DataAnnotations;
     public class autores
     {
