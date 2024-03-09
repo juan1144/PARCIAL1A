@@ -88,27 +88,31 @@ namespace PARCIAL1A.Controllers
         }
 
         [HttpGet]
-        [Route("FiltrarPorAutor/{filter}")]
-        public IActionResult findByName(String filter)
+        [Route("FiltrarPorLibro")]
+        public IActionResult FiltrarPorLibro()
         {
-            var listadoEquipo = (from au in _parcial1aContexto.autores
-                                 join ps in _parcial1aContexto.Posts
-                                    on au.Id equals ps.AutorId
-                                 where au.Nombre.Contains(filter)
-                                 select new
-                                 {
-                                     idPosts = ps.Id,
-                                     TituloPosts = ps.Titulo,
-                                     contenidoPosts = ps.Contenido,
-                                     fechaPublicacion = ps.FechaPublicacion,
-                                     nombreAutor = au.Nombre,
-
-                                 }).Take(20).ToList();
-            if (listadoEquipo.Count() == 0)
+            var listadoPost = (from li in _parcial1aContexto.libros
+                               join auli in _parcial1aContexto.autorlibro
+                                  on li.Id equals auli.LibroId
+                               join au in _parcial1aContexto.autores
+                                  on auli.AutorId equals au.Id
+                               join ps in _parcial1aContexto.Posts
+                                  on au.Id equals ps.AutorId
+                               select new
+                               {
+                                   idPosts = ps.Id,
+                                   TituloPosts = ps.Titulo,
+                                   contenidoPosts = ps.Contenido,
+                                   fechaPublicacion = ps.FechaPublicacion,
+                                   nombreAutor = au.Nombre,
+                                   libroId = li.Id,
+                                   libroTitulo = li.Titulo,
+                               }).OrderBy(resultado => resultado.libroId).ToList();
+            if (listadoPost.Count() == 0)
             {
                 return NotFound();
             }
-            return Ok(listadoEquipo);
+            return Ok(listadoPost);
         }
     }
 }
